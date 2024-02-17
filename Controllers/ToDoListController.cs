@@ -20,12 +20,18 @@ namespace PaymentsAPI.Controllers
             _toDoListService = toDoListService;
         }
 
+        /// <summary>
+        /// Returns list with ToDo lists
+        /// </summary>        
         [HttpGet]
         public async Task<ActionResult<List<ToDoList>>> GetToDoList()
         {
             return await _toDoListService.GetToDoLists();     
         }
 
+        /// <summary>
+        /// Adds an item to the ToDo list
+        /// </summary>        
         [HttpPost]
         public async Task<ActionResult> AddToDoList()
         {

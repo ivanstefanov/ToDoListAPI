@@ -13,6 +13,8 @@ using PaymentsAPI.Services;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace PaymentsAPI
@@ -32,12 +34,19 @@ namespace PaymentsAPI
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentsAPI", Version = "v1" });
+            {                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                
+                c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoList API", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Please Enter 'Bearer' [space] and then your token in the text input below. Example: \"Bearer eyJraWQ ...\"",
+                    Description = "JWT Authorization header using the Bearer scheme. <br> " +
+                    "Please Enter 'Bearer' [space] and then your token in the text input below. Example: \"Bearer eyJraWQ ...\". <br> " +
+                    "To obtain such token, execute the 'GET api/User' request.",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
